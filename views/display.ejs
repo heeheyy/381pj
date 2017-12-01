@@ -37,30 +37,27 @@
             <% } %>
         <% } %>
     </form>
-<% if(restaurant.mimetype!==undefined && restaurant.mimetype!==null && restaurant.image!==undefined && restaurant.image!==null){ %>
-    <img src="data: <%= restaurant.mimetype %>;base64,<%= restaurant.image %>" width="600px" alt="base64 test">
-<% } %>
-<div id="map" style="width:500px;height:500px;"></div>
+
 <!--user rating-->
 <div>
     <% if(!rated){ %>
-    <form id='rate' method='POST' action='/rate'>
+    <form id='rate' method='GET' action='/rate'>
         <input type="hidden" name="_id" value="<%= restaurant._id %>">
         <select name="score" style="float:left;">
-            <% for(var i=1;i<=10;i++){ %>
-            <option value="<%=i %>"><%=i %></option>
+            <% for(i=0;i<10;i++){ %>
+            <option value="<%=i %>"> <%=i %></option>
             <% } %>
         </select>
     </form>
-    <button type="submit" form="rate"  value="Rate now" style="float:left;">Rate now</button><br>
+    <button type="submit" form="rate"  value="Rate now" style="float:left;">Rate</button><br>
     <div class="clear"></div>
     <% } else{ %>
-    You rate this restaurant <%= score %> marks.
+    You rated <%= restaurant.name %> <%= score %> marks.
     <% }%>
 </div>
 
 <% if(restaurant.creator==user){ %>
-    <form id='delete' method='POST' action='/delete'>
+    <form id='delete' method='GET' action='/delete'>
     <input type="hidden" name="_id" value="<%= restaurant._id %>">
     </form>
     <button type="submit" form="details" value="Edit">Edit</button>
