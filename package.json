@@ -1,17 +1,16 @@
 {
-  "name": "COMPS381F Project",
+  "name": "COMPS381FProject",
   "description": "NodeJS Session",
-  "author":"Fung Hei Tung,Li Wai Yin,Yeung Chun Sing",
+  "author": "Fung Hei Tung,Li Wai Yin,Yeung Chun Sing",
   "version": "0.0.1",
   "dependencies": {
-    "express":"*",
-    "ejs":"*",
-    "body-parser":"*",
-    "cookie-session":"*"
+    "express": "*",
+    "ejs": "*",
+    "body-parser": "*",
+    "cookie-session": "*"
   },
   "engine": "Node >= 0.10.0",
   "scripts": {
-    "start":"node server"
+    "start": "node server"
   }
-  }
-
+}
