@@ -5,16 +5,17 @@
     <title>Restaurants</title>
 </head>
 <body>
+    <a href="/">Home</a> <a href="/logout">Logout</a> <a href="/create">Insert new restaurant</a> <a href="/filter">Filtering</a>
     <% if (restaurants.length > 0) { %>
         <h1>Restaurants</h1>
         <h2>Showing <%= restaurants.length%> documents</h2>
         <ol>
             <% for(var i=0; i<restaurants.length;i++){ %>
-                <li><a href="/display?_id=<%= restaurants[i]._id %>"> <%= restaurants[i].name %></a></li>
+                <li><a href="/display?_id=<%= restaurants[i]._id %>"> <%= restaurants[i].rname %></a></li>
             <% } %>
         </ol>
     <% } else{ %>
         <h1>Nothing to show.</h1>
-    <% } %>
+    <% }%>
 </body>
 </html>

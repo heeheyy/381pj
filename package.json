@@ -4,10 +4,13 @@
   "author": "Fung Hei Tung,Li Wai Yin,Yeung Chun Sing",
   "version": "0.0.1",
   "dependencies": {
-    "express": "*",
-    "ejs": "*",
+    "@google/maps": "^0.4.5",
     "body-parser": "*",
-    "cookie-session": "*"
+    "cookie-session": "*",
+    "ejs": "*",
+    "express": "*",
+    "formidable": "^1.1.1",
+    "mongodb": "^2.2.33"
   },
   "engine": "Node >= 0.10.0",
   "scripts": {
