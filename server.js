@@ -331,6 +331,58 @@ app.get('/logout',function(req,res) {
     res.redirect('/');
 });
 
+app.post('/api/restaurant/create',function(req,res){
+    var recv = req.body;
+    var resObj;
+    MongoClient.connect(mongourl,function(err,db) {
+        assert.equal(err,null);
+        console.log('Connected to MongoDB\n');
+        insertRestaurant(db,recv,function(id) {
+            db.close();
+            if(id!==undefined||id!==null){
+                resObj = {
+                    status : "ok",
+                    _id: id
+                };
+                res.end(JSON.stringify(resObj));
+            }else{
+                resObj = {
+                    status : "failed"
+                };
+                res.end(JSON.stringify(resObj));
+            }
+        });
+    });
+});
+
+app.get('/api/restaurant/read/:criteria/:criValue',function(req,res){
+    var str = req.params.criteria;
+    var value = req.params.criValue;
+    var criObj;
+    switch(str){
+        case "name":
+            criObj = {"name":value};
+            break;
+        case "borough":
+            criObj = {"borough":value};
+            break;
+        case "cuisine":
+            criObj = {"cuisine":value};
+            break;
+        default:
+            res.end("Invalid request");
+    }
+    MongoClient.connect(mongourl, function(err, db) {
+        assert.equal(err,null);
+        findRestaurants(db,criObj,null,function(restaurants) {
+            db.close();
+            console.log('Disconnected MongoDB\n');
+            res.writeHead(200, {"Content-Type": "text/json"});
+            res.end(JSON.stringify(restaurants,null,4));
+        });
+    });
+});
+
 
 app.listen(process.env.PORT||8099);
 
