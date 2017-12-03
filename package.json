@@ -1,7 +1,7 @@
 {
   "name": "COMPS381FProject",
   "description": "NodeJS Session",
-  "author": "Fung Hei Tung,Li Wai Yin,Yeung Chun Sing",
+  "author": "Fung Hei Tung(11415481),Li Wai Yin(11409900),Yeung Chun Sing(11414830)",
   "version": "0.0.1",
   "dependencies": {
     "@google/maps": "^0.4.5",

@@ -179,21 +179,31 @@ app.get('/display',function(req,res) {
             console.log(req.session.usrid);
             Rated(db,queryAsObject._id,req.session.usrid,function(callback){
                 db.close();
-                if (!callback) {
+                if (callback) {
+                    if(callback.grades.length==1){
+                    var ratedScore = callback.grades[0].score;}
+                    else{
+                        for(var i=0;i<callback.grades.length;i++){
+                            if(callback.grades[i].userid == req.session.usrid){
+                                ratedScore = callback.grades[i].score;}
+                        }}
+
+                    console.log("Score: " + ratedScore);
+
+                    res.render('display', {
+                        restaurant: doc,
+                        rated: true,
+                        user: req.session.usrid,
+                        score: ratedScore,
+                        backToIndex: backToIndex
+                    });
+
+                }else {
                     res.render('display', {
                         restaurant: doc,
                         user: req.session.usrid,
                         rated: false,
                         score: false,
-                        backToIndex: backToIndex
-                    });
-                } else {
-                    console.log("Score: " + callback.grades[0].score);
-                    res.render('display', {
-                        restaurant: doc,
-                        user: req.session.usrid,
-                        rated: true,
-                        score: callback.grades[0].score,
                         backToIndex: backToIndex
                     });
                 }
@@ -288,11 +298,11 @@ app.post('/delete',function(req,res) {
     });
 });
 
-app.get('/rate',function(req,res) {
+app.post('/rate',function(req,res) {
     var criteria = {
         _id : ObjectId(req.body._id)
     };
-    console.log('About to delete ' + JSON.stringify(criteria));
+
     MongoClient.connect(mongourl,function(err,db) {
         assert.equal(err,null);
         db.collection('restaurant').update(
@@ -300,12 +310,14 @@ app.get('/rate',function(req,res) {
             { $push:
             { grades:
             {
-                userid:req.session.userid,
+                userid:req.session.usrid,
+
                 score:req.body.score
             }
             }
             },function(err,result) {
                 assert.equal(err, null);
+                console.log("from "+req.session.usrid);
                 console.log("Rated");
                 res.redirect('/display?_id='+req.body._id+'&backToIndex=true');
             }
