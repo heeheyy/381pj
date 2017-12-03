@@ -1,8 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <title><%= restaurant.name %></title>
+    <script>
+        function goBack() {
+            if( <%= backToIndex %> == true){
+                window.location="/";
+            }else{
+                window.history.back();}
+        }
+        var coordinates = {
+            lat: <%= restaurant.address.locat[0]%> ,
+            longt: <%=restaurant.address.locat[1]%>
+        };
+        if(coordinates['lat']!==undefined&&coordinates['lat']!==null&&coordinates['longt']!==undefined&&coordinates['longt']!==null){
+            var loadMap = function () {
+            var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 12,
+            center: coordinates
+        });
+        var map = new google.maps.Marker({
+            position: coordinates,
+            map: map,
+            title: '<%=restaurant.name%>'
+        });
+        };
+        window.onload = loadMap;
+        }
+    </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYy_SL8lrXxGH1RqG5wCQGihoietMcmpc"
+                type="text/javascript"></script>
+<title><%= restaurant.name %></title>
 </head>
 
 <body>
@@ -12,7 +42,7 @@
         <input type="hidden" name="_id" value="<%= restaurant._id %>">
         <input type="hidden" name="creator" value="<%= restaurant.creator %>">
         <input type="hidden" name="lat" value="<%= restaurant.address.coord[0] %>">
-        <input type="hidden" name="lng" value="<%= restaurant.address.coord[1] %>">
+        <input type="hidden" name="longt" value="<%= restaurant.address.coord[1] %>">
         Name: <input type="text" name="name" value="<%= restaurant.name %>" readonly><br>
         <% if(restaurant.borough!==undefined && restaurant.borough!==null){ %>
             Borough: <input type="text" name="borough" value="<%= restaurant.borough %>" readonly><br>
@@ -65,4 +95,4 @@
 <% } %>
 <button onclick="goBack()">Back to previous page</button>
 </body>
-</htm>
+</html>
